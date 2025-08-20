@@ -55,8 +55,11 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social Media */}
+            {/* Social Media & WhatsApp */}
             <div className="flex space-x-4">
+              <a href="https://wa.me/971412345678" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110">
+                <Phone className="h-5 w-5" />
+              </a>
               <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all duration-300 hover:scale-110">
                 <Facebook className="h-5 w-5" />
               </a>
@@ -94,7 +97,7 @@ export default function Footer() {
               <li><Link href="/about"><span className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-300 cursor-pointer block">About Us</span></Link></li>
               <li><Link href="/contact"><span className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-300 cursor-pointer block">Contact Support</span></Link></li>
               <li><Link href="/tracking"><span className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-300 cursor-pointer block">Track Application</span></Link></li>
-              <li><a href="#" className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-300 block">Success Stories</a></li>
+              <li><Link href="/application"><span className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-300 cursor-pointer block">Start Application</span></Link></li>
             </ul>
           </div>
 

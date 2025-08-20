@@ -96,10 +96,12 @@ export default function Contact() {
               <MessageCircle className="mr-2 h-5 w-5" />
               Free Consultation
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              <Phone className="mr-2 h-5 w-5" />
-              Call Now
-            </Button>
+            <a href="tel:+971412345678">
+              <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold shadow-lg backdrop-blur-sm">
+                <Phone className="mr-2 h-5 w-5" />
+                Call Now
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -204,12 +206,23 @@ export default function Contact() {
                   <p className="text-gray-600">Visit our main office in the heart of Dubai's business district</p>
                 </CardHeader>
                 <CardContent>
-                  {/* Placeholder for map - In a real implementation, you'd integrate with Google Maps or similar */}
-                  <div className="h-64 bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-                    <div className="text-center">
-                      <MapPin className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                      <p className="text-gray-500">Interactive Map</p>
-                      <p className="text-sm text-gray-400">Business Bay, Dubai, UAE</p>
+                  {/* Demo Interactive Map */}
+                  <div className="h-64 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg mb-6 relative overflow-hidden">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.158516956735!2d55.2651738!3d25.1881721!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f69d4c8b1b82b%3A0x7f8b3e9c2a8f1c3d!2sBusiness%20Bay%2C%20Dubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sus!4v1639123456789"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen={true}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="rounded-lg"
+                    />
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2">
+                      <div className="flex items-center">
+                        <MapPin className="h-4 w-4 text-red-500 mr-2" />
+                        <span className="text-sm font-medium">VisaVirtue Office</span>
+                      </div>
                     </div>
                   </div>
                   

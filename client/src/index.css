@@ -137,6 +137,21 @@
     background-clip: text;
   }
 
+  /* Gold gradient text */
+  .gold-gradient-text {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ff9500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Premium background animations */
+  .premium-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
   /* Glassmorphism effect */
   .glass-effect {
     background: rgba(255, 255, 255, 0.1);
@@ -233,6 +248,24 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
   }
 }
 

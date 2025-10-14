@@ -1,16 +1,25 @@
-# React + Vite
+# 🌍 **Visa Virtue – Key to Your Visas**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Visa Virtue** is a beautifully designed **React** component that showcases travel destinations with smooth hover animations, motion effects, and a fully responsive layout.  
+Built using **React**, **Tailwind CSS**, and **Framer Motion**, it offers an elegant and interactive way to present travel cards with delightful animations.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ⚠️ **Exclusive Use — Proprietary Notice**
 
-## React Compiler
+> **Exclusive Company Use.**  
+> This repository and all code, assets, illustrations, images, and documentation contained herein are the **exclusive property of VisaVirtue**.  
+> Use, copy, modify, distribute, or publish any part of this repository is **strictly prohibited** without prior written permission from the Company.  
+> 
+> **Unauthorized use may result in civil and/or criminal legal action** to the fullest extent permitted by law.  
+> 
+> 📩 For permission requests, contact: **visavirtue@gmail.com**
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> **Note:**  
+> This notice is intended to reserve and protect proprietary rights.  
+> For legally binding restrictions tailored to your jurisdiction and business needs, consult a licensed attorney.
 
-## Expanding the ESLint configuration
+## License
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+[MIT](https://choosealicense.com/licenses/mit/)
+

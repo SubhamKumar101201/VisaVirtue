@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ Make sure React Router is installed
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function Navbar() {
           className="flex items-center space-x-2"
         >
           <img
-            src="/logo.svg"  // ✅ Place your logo file inside the public folder
+            src="/logo.svg"
             alt="VisaVirtue Logo"
             className="h-12 w-auto sm:h-14 object-contain"
           />

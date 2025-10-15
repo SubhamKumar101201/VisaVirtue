@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaGlobe, FaBolt, FaShieldAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { FaGlobe, FaBolt, FaShieldAlt } from "react-icons/fa";
 
 const slides = [
   {
@@ -26,10 +26,17 @@ const slides = [
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
 
+  // Preload images once
   useEffect(() => {
+    slides.forEach((s) => {
+      const img = new Image();
+      img.src = s.image;
+    });
+
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 4000);
+
     return () => clearInterval(timer);
   }, []);
 
@@ -48,10 +55,10 @@ export default function HeroSection() {
 
         <p className="text-gray-700 text-lg max-w-md mx-auto lg:mx-0">
           Unlock global opportunities with{" "}
-          <span className="font-semibold text-[#780606]">VisaVirtue</span>.
-          We simplify complex visa procedures, making your travel journey
-          smooth, secure, and stress-free — because every journey begins
-          with the <span className="font-semibold">right key</span>.
+          <span className="font-semibold text-[#780606]">VisaVirtue</span>. We
+          simplify complex visa procedures, making your travel journey smooth,
+          secure, and stress-free — because every journey begins with the{" "}
+          <span className="font-semibold">right key</span>.
         </p>
 
         {/* Icons Section */}
@@ -81,19 +88,24 @@ export default function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Right Carousel */}
+      {/* Right Section (Images Layered) */}
       <motion.div
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
         className="lg:w-1/2 w-full flex justify-center relative"
       >
-        <div className="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative">
-          <img
-            src={slides[current].image}
-            alt={slides[current].title}
-            className="w-full h-80 sm:h-96 object-cover transition-all duration-700 ease-in-out rounded-3xl"
-          />
+        <div className="w-full max-w-md h-80 sm:h-96 rounded-3xl overflow-hidden shadow-2xl relative">
+          {slides.map((slide, index) => (
+            <img
+              key={index}
+              src={slide.image}
+              alt={slide.title}
+              className={`absolute inset-0 w-full h-full object-cover rounded-3xl transition-opacity duration-1000 ease-in-out ${
+                current === index ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
           <div className="absolute bottom-6 left-6 bg-black/50 text-white px-4 py-2 rounded-lg text-lg font-medium">
             {slides[current].title}
           </div>

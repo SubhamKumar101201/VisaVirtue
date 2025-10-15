@@ -1,18 +1,71 @@
+import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const VisaDestinations = () => {
   const destinations = [
-    { name: "Paris, France", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34", desc: "The city of lights and love." },
-    { name: "Tokyo, Japan", image: "https://images.unsplash.com/photo-1522547902298-51566e4fb383", desc: "Where tradition meets technology." },
-    { name: "Sydney, Australia", image: "https://images.unsplash.com/photo-1603912402711-d13eea439bc8", desc: "Sun, sea, and the Opera House." },
-    { name: "Dubai, UAE", image: "https://images.unsplash.com/photo-1518684079-3c830dcef090", desc: "Luxury and innovation in the desert." },
-    { name: "Santorini, Greece", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/GR", desc: "Blue domes and breathtaking views." },
-    { name: "Rome, Italy", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/IT", desc: "Ancient ruins and timeless beauty." },
-    { name: "San Francisco, USA", image: "https://plus.unsplash.com/premium_photo-1675314167547-9cb4f72f145f", desc: "Golden Gate and coastal charm." },
-    { name: "Bali, Indonesia", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/ID", desc: "Tropical paradise and temples." },
-    { name: "Singapore", image: "https://images.unsplash.com/photo-1516496636080-14fb876e029d", desc: "Clean, green, and modern." },
-    { name: "London, UK", image: "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe", desc: "Historic charm meets modern life." },
+    {
+      name: "Paris, France",
+      image:
+        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600",
+      desc: "The city of lights and love.",
+    },
+    {
+      name: "Tokyo, Japan",
+      image:
+        "https://images.unsplash.com/photo-1522547902298-51566e4fb383?w=600",
+      desc: "Where tradition meets technology.",
+    },
+    {
+      name: "Sydney, Australia",
+      image:
+        "https://images.unsplash.com/photo-1603912402711-d13eea439bc8?w=600",
+      desc: "Sun, sea, and the Opera House.",
+    },
+    {
+      name: "Dubai, UAE",
+      image:
+        "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600",
+      desc: "Luxury and innovation in the desert.",
+    },
+    {
+      name: "Santorini, Greece",
+      image:
+        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/GR",
+      desc: "Blue domes and breathtaking views.",
+    },
+    {
+      name: "Rome, Italy",
+      image:
+        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/IT",
+      desc: "Ancient ruins and timeless beauty.",
+    },
+    {
+      name: "San Francisco, USA",
+      image:
+        "https://plus.unsplash.com/premium_photo-1675314167547-9cb4f72f145f?w=600",
+      desc: "Golden Gate and coastal charm.",
+    },
+    {
+      name: "Bali, Indonesia",
+      image:
+        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/ID",
+      desc: "Tropical paradise and temples.",
+    },
+    {
+      name: "Singapore",
+      image:
+        "https://images.unsplash.com/photo-1516496636080-14fb876e029d?w=600",
+      desc: "Clean, green, and modern.",
+    },
+    {
+      name: "London, UK",
+      image:
+        "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe?w=600",
+      desc: "Historic charm meets modern life.",
+    },
   ];
 
   return (
@@ -37,12 +90,14 @@ const VisaDestinations = () => {
           viewport={{ once: true }}
           className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-14"
         >
-          Get your visa approved smoothly & on time. Explore our most popular destinations with thousands of successful visas delivered on time.
+          Get your visa approved smoothly & on time. Explore our most popular
+          destinations with thousands of successful visas delivered on time.
           Wherever you plan to go,{" "}
-          <span className="text-[#f4b02a] font-semibold">VisaVirtue</span> has you covered.
+          <span className="text-[#f4b02a] font-semibold">VisaVirtue</span> has
+          you covered.
         </motion.p>
 
-        {/* Cards Grid */}
+        {/* Cards Grid - Animated Once */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-12 justify-items-center">
           {destinations.map((dest, index) => (
             <motion.div
@@ -57,13 +112,16 @@ const VisaDestinations = () => {
               viewport={{ once: true }}
               className="relative group rounded-2xl overflow-hidden shadow-lg bg-white transition-all duration-500 hover:scale-105 cursor-pointer"
             >
-              <img
-                loading="lazy"
+              {/* Lazy Loaded Image */}
+              <LazyLoadImage
+                effect="blur"
                 src={dest.image}
                 alt={dest.name}
+                wrapperClassName="!block" // because the white spacing bottom of image
                 className="w-64 h-80 object-cover transition-transform duration-500 group-hover:scale-110"
               />
 
+              {/* Overlay */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               {/* Text Animation */}
@@ -77,6 +135,7 @@ const VisaDestinations = () => {
             </motion.div>
           ))}
         </div>
+
 
         {/* View All Button */}
         <motion.div
@@ -95,4 +154,4 @@ const VisaDestinations = () => {
   );
 };
 
-export default VisaDestinations;
+export default React.memo(VisaDestinations);

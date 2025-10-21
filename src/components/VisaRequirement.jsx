@@ -19,23 +19,18 @@ export default function VisaRequirement() {
   ];
 
   return (
-    <section
-      className="relative py-20 px-4 md:px-8 lg:px-12 mb-24"
+    <motion.div
+      initial={{ opacity: 0, y: 60, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="relative py-20 px-4 md:px-8 lg:px-12 bg-cover bg-center"
       style={{
         backgroundImage:
           "linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1657358846130-3305fd8fcd30?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
       }}
-
     >
-      <motion.div
-        initial={{ opacity: 0, y: 60, scale: 0.95 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.2 }}
-        className="relative z-10 max-w-5xl mx-auto text-center text-white"
-      >
+      <div className="relative z-10 max-w-5xl mx-auto text-center text-white">
         {/* Title */}
         <h2 className="font-[Poppins],sans-serif text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
           <span className="text-[#f4b02a]">Visa Requirements</span>
@@ -98,7 +93,6 @@ export default function VisaRequirement() {
                   Check Requirements
                 </button>
               </div>
-
             </div>
           </div>
 
@@ -120,7 +114,7 @@ export default function VisaRequirement() {
             </div>
           </div>
         </motion.div>
-      </motion.div>
-    </section>
+      </div>
+    </motion.div>
   );
 }

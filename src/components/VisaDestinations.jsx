@@ -6,70 +6,20 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const VisaDestinations = () => {
   const destinations = [
-    {
-      name: "Paris, France",
-      image:
-        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600",
-      desc: "The city of lights and love.",
-    },
-    {
-      name: "Tokyo, Japan",
-      image:
-        "https://images.unsplash.com/photo-1522547902298-51566e4fb383?w=600",
-      desc: "Where tradition meets technology.",
-    },
-    {
-      name: "Sydney, Australia",
-      image:
-        "https://images.unsplash.com/photo-1603912402711-d13eea439bc8?w=600",
-      desc: "Sun, sea, and the Opera House.",
-    },
-    {
-      name: "Dubai, UAE",
-      image:
-        "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600",
-      desc: "Luxury and innovation in the desert.",
-    },
-    {
-      name: "Santorini, Greece",
-      image:
-        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/GR",
-      desc: "Blue domes and breathtaking views.",
-    },
-    {
-      name: "Rome, Italy",
-      image:
-        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/IT",
-      desc: "Ancient ruins and timeless beauty.",
-    },
-    {
-      name: "San Francisco, USA",
-      image:
-        "https://plus.unsplash.com/premium_photo-1675314167547-9cb4f72f145f?w=600",
-      desc: "Golden Gate and coastal charm.",
-    },
-    {
-      name: "Bali, Indonesia",
-      image:
-        "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/ID",
-      desc: "Tropical paradise and temples.",
-    },
-    {
-      name: "Singapore",
-      image:
-        "https://images.unsplash.com/photo-1516496636080-14fb876e029d?w=600",
-      desc: "Clean, green, and modern.",
-    },
-    {
-      name: "London, UK",
-      image:
-        "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe?w=600",
-      desc: "Historic charm meets modern life.",
-    },
+    { name: "Paris, France", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600", desc: "The city of lights and love." },
+    { name: "Tokyo, Japan", image: "https://images.unsplash.com/photo-1522547902298-51566e4fb383?w=600", desc: "Where tradition meets technology." },
+    { name: "Sydney, Australia", image: "https://images.unsplash.com/photo-1603912402711-d13eea439bc8?w=600", desc: "Sun, sea, and the Opera House." },
+    { name: "Dubai, UAE", image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600", desc: "Luxury and innovation in the desert." },
+    { name: "Santorini, Greece", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/GR", desc: "Blue domes and breathtaking views." },
+    { name: "Rome, Italy", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/IT", desc: "Ancient ruins and timeless beauty." },
+    { name: "San Francisco, USA", image: "https://plus.unsplash.com/premium_photo-1675314167547-9cb4f72f145f?w=600", desc: "Golden Gate and coastal charm." },
+    { name: "Bali, Indonesia", image: "https://media.atlys.com/image/upload/f_auto,w_800/country_thumbnails/ID", desc: "Tropical paradise and temples." },
+    { name: "Singapore", image: "https://images.unsplash.com/photo-1516496636080-14fb876e029d?w=600", desc: "Clean, green, and modern." },
+    { name: "London, UK", image: "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe?w=600", desc: "Historic charm meets modern life." },
   ];
 
   return (
-    <section className="py-20 bg-[#F2F3FA]">
+    <div className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
         {/* Title */}
         <motion.h2
@@ -97,34 +47,25 @@ const VisaDestinations = () => {
           you covered.
         </motion.p>
 
-        {/* Cards Grid - Animated Once */}
+        {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-12 justify-items-center">
           {destinations.map((dest, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
               viewport={{ once: true }}
               className="relative group rounded-2xl overflow-hidden shadow-lg bg-white transition-all duration-500 hover:scale-105 cursor-pointer"
             >
-              {/* Lazy Loaded Image */}
               <LazyLoadImage
                 effect="blur"
                 src={dest.image}
                 alt={dest.name}
-                wrapperClassName="!block" // because the white spacing bottom of image
+                wrapperClassName="!block"
                 className="w-64 h-80 object-cover transition-transform duration-500 group-hover:scale-110"
               />
-
-              {/* Overlay */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              {/* Text Animation */}
               <div className="absolute bottom-0 w-full text-center text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-4">
                 <h3 className="text-xl font-semibold mb-2">{dest.name}</h3>
                 <p className="text-sm mb-3">{dest.desc}</p>
@@ -135,7 +76,6 @@ const VisaDestinations = () => {
             </motion.div>
           ))}
         </div>
-
 
         {/* View All Button */}
         <motion.div
@@ -150,7 +90,7 @@ const VisaDestinations = () => {
           </button>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 

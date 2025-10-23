@@ -43,8 +43,11 @@ const InfiniteTestimonials = () => {
     const duplicatedTestimonials = [...testimonials, ...testimonials]; // For infinite loop illusion
 
     return (
-        <div className="relative overflow-hidden py-20 bg-white font-['Manrope']">
-            <div className="text-center mb-12">
+        <div className="relative overflow-hidden py-20 px-6 md:px-10 lg:px-20 font-['Manrope'] bg-gradient-to-r from-[#fef3f3] via-white to-white">
+            {/* soft glow accent on the left */}
+            <div className="absolute left-0 top-0 w-[300px] h-full bg-[#780606]/5 blur-3xl opacity-60 pointer-events-none"></div>
+
+            <div className="text-center mb-12 relative z-10">
                 <h2 className="text-4xl md:text-5xl font-extrabold text-[#780606]">
                     What Our Clients Say
                 </h2>
@@ -55,7 +58,7 @@ const InfiniteTestimonials = () => {
             </div>
 
             <motion.div
-                className="flex gap-8"
+                className="flex gap-8 relative z-10"
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{
                     repeat: Infinity,
@@ -66,7 +69,7 @@ const InfiniteTestimonials = () => {
                 {duplicatedTestimonials.map((t, i) => (
                     <div
                         key={i}
-                        className="min-w-[350px] max-w-[400px] flex-shrink-0 bg-white shadow-lg rounded-2xl p-8 mx-2 border border-gray-100 hover:shadow-xl transition-all flex flex-col justify-between"
+                        className="min-w-[350px] max-w-[400px] flex-shrink-0 bg-white/80 backdrop-blur-lg shadow-lg rounded-2xl p-8 mx-2 border border-gray-100 hover:shadow-xl transition-all flex flex-col justify-between hover:translate-y-[-4px]"
                     >
                         {/* Top Section */}
                         <div>
@@ -84,7 +87,9 @@ const InfiniteTestimonials = () => {
                                 className="w-14 h-14 rounded-full object-cover border-2 border-[#780606]/20"
                             />
                             <div>
-                                <h3 className="font-semibold text-[#780606] text-lg">{t.name}</h3>
+                                <h3 className="font-semibold text-[#780606] text-lg">
+                                    {t.name}
+                                </h3>
                                 <p className="text-gray-500 text-sm">{t.country}</p>
                                 <div className="flex mt-2 text-[#780606]">
                                     {Array(5)

@@ -19,8 +19,20 @@ const VisaDestinations = () => {
   ];
 
   return (
-    <div className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+    <div className="relative py-20 bg-white overflow-hidden font-['Manrope']">
+      {/* Gradient Background */}
+      <motion.div
+        className="absolute top-0 left-0 w-[400px] h-[400px] bg-[#780606]/10 rounded-full blur-3xl"
+        animate={{ y: [0, -25, 0], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-10 w-[350px] h-[350px] bg-[#780606]/5 rounded-full blur-3xl"
+        animate={{ y: [0, 20, 0], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center relative z-10">
         {/* Title */}
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
@@ -48,7 +60,7 @@ const VisaDestinations = () => {
         </motion.p>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-12 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10 justify-items-center">
           {destinations.map((dest, index) => (
             <motion.div
               key={index}
@@ -63,13 +75,13 @@ const VisaDestinations = () => {
                 src={dest.image}
                 alt={dest.name}
                 wrapperClassName="!block"
-                className="w-64 h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-44 sm:w-56 md:w-64 h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute bottom-0 w-full text-center text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-4">
-                <h3 className="text-xl font-semibold mb-2">{dest.name}</h3>
-                <p className="text-sm mb-3">{dest.desc}</p>
-                <button className="px-4 py-2 bg-[#780606] rounded-full text-white text-sm font-semibold transition-transform duration-200 hover:bg-[#5a0404] hover:scale-[1.03] shadow-md">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">{dest.name}</h3>
+                <p className="text-xs sm:text-sm mb-3">{dest.desc}</p>
+                <button className="px-4 py-2 bg-[#780606] rounded-full text-white text-xs sm:text-sm font-semibold transition-transform duration-200 hover:bg-[#5a0404] hover:scale-[1.03] shadow-md">
                   More Details
                 </button>
               </div>

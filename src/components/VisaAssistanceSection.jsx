@@ -3,8 +3,21 @@ import { FaPlaneDeparture, FaRegPaperPlane } from "react-icons/fa";
 
 const VisaAssistance = () => {
   return (
-    <div className="relative py-16 px-6 lg:px-20 bg-white font-['Manrope'] overflow-hidden">
-      <div className="flex flex-col items-center text-center">
+    <div className="relative py-16 px-6 lg:px-20 bg-gradient-to-l from-[#fef3f3] via-white to-white font-['Manrope'] overflow-hidden">
+      {/* Gradient Blobs */}
+      <motion.div
+        className="absolute top-10 right-0 w-[400px] h-[400px] bg-[#780606]/10 rounded-full blur-3xl opacity-70 pointer-events-none"
+        animate={{ y: [0, 30, 0], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-10 w-[350px] h-[350px] bg-[#780606]/5 rounded-full blur-3xl opacity-70 pointer-events-none"
+        animate={{ y: [0, -20, 0], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Main Content */}
+      <div className="flex flex-col items-center text-center relative z-10">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -35,7 +48,9 @@ const VisaAssistance = () => {
             { number: "99%", label: "Approval Rate" },
           ].map((stat, index) => (
             <div key={index}>
-              <h3 className="text-3xl font-extrabold text-[#780606]">{stat.number}</h3>
+              <h3 className="text-3xl font-extrabold text-[#780606]">
+                {stat.number}
+              </h3>
               <p className="text-gray-700 font-medium mt-2">{stat.label}</p>
             </div>
           ))}
@@ -55,24 +70,30 @@ const VisaAssistance = () => {
               <FaPlaneDeparture /> Apply for Your Visa
             </p>
             <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] leading-tight mb-5">
-              You plan the trip, <span className="text-[#780606]">we’ll handle the process.</span>
+              You plan the trip,{" "}
+              <span className="text-[#780606]">we’ll handle the process.</span>
             </h3>
             <p className="text-gray-600 mb-8 leading-relaxed">
               Our visa specialists handle every detail — from document verification to embassy scheduling.
               Enjoy a hassle-free experience that gets you one step closer to your next destination.
             </p>
-            <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#780606] text-white font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg">
+            <button className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#780606] text-white font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg">
               Apply Now
               <FaRegPaperPlane className="text-lg transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>
 
-          {/* Image Side with border + shadow + hover motion */}
+          {/* Image Side */}
           <motion.div
             className="flex-1 flex items-center justify-center relative p-6"
             initial={{ opacity: 0, x: 80, rotate: 5 }}
             whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut', type: 'spring', stiffness: 80 }}
+            transition={{
+              duration: 0.7,
+              ease: "easeOut",
+              type: "spring",
+              stiffness: 80,
+            }}
             viewport={{ once: true }}
             whileHover={{ scale: 1.05, y: -10 }}
           >

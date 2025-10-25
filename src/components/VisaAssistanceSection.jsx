@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaPlaneDeparture, FaRegPaperPlane } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const VisaAssistance = () => {
   return (
@@ -77,10 +78,13 @@ const VisaAssistance = () => {
               Our visa specialists handle every detail — from document verification to embassy scheduling.
               Enjoy a hassle-free experience that gets you one step closer to your next destination.
             </p>
-            <button className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#780606] text-white font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#780606] text-white font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg"
+            >
               Apply Now
               <FaRegPaperPlane className="text-lg transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+            </Link>
           </div>
 
           {/* Image Side */}

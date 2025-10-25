@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaRegPaperPlane } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,8 +19,8 @@ export default function Navbar() {
   return (
     <nav
       className={`w-full sticky top-0 left-0 z-50 transition-all duration-500 ${isScrolled
-          ? "bg-white/90 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
-          : "bg-white shadow-sm"
+        ? "bg-white/90 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+        : "bg-white shadow-sm"
         }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 sm:py-4 transition-all duration-500">
@@ -56,13 +56,16 @@ export default function Navbar() {
             </NavLink>
           ))}
 
-          <button className="relative flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#780606] to-[#a30e0e] text-white font-semibold border border-[#780606] overflow-hidden transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105">
+          <Link
+            to={"/contact"}
+            className="relative flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#780606] to-[#a30e0e] text-white font-semibold border border-[#780606] overflow-hidden transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105"
+          >
             <span className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300 rounded-full"></span>
             <span className="relative z-10 flex items-center gap-2">
               Apply Now
               <FaRegPaperPlane className="transition-transform duration-300 group-hover:translate-x-1" />
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* ===== Mobile Menu Toggle ===== */}
@@ -128,9 +131,13 @@ export default function Navbar() {
           ))}
 
           <div className="px-4 pt-4">
-            <button className="w-full bg-white text-[#780606] py-3 rounded-2xl border border-[#780606] hover:bg-[#780606] hover:text-white transition-all duration-300 shadow-md">
+            <Link
+              to="/contact"
+              onClick={handleMenuClick}
+              className="w-full bg-white text-[#780606] py-3 rounded-2xl border border-[#780606] hover:bg-[#780606] hover:text-white transition-all duration-300 shadow-md text-center block"
+            >
               Apply Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

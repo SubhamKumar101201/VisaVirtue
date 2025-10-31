@@ -10,20 +10,25 @@ import {
   FaLinkedinIn,
   FaYoutube,
   FaBullhorn,
-  FaCheckCircle,
 } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
 
 export default function ContactUs() {
   const form = useRef();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
-    // Uncomment when EmailJS is configured
-    /*
     emailjs
-      .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", form.current, "YOUR_PUBLIC_KEY")
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
       .then(
         () => {
           setIsSubmitted(true);
@@ -31,15 +36,19 @@ export default function ContactUs() {
           setTimeout(() => setIsSubmitted(false), 4000);
         },
         (error) => {
-          console.error("EmailJS Error:", error.text);
+          console.error("EmailJS Error:", error);
+          setErrorMessage(
+            error?.text?.includes("quota") || error?.status === 429
+              ? "Developer Note: Email service quota exceeded. Please upgrade your EmailJS plan."
+              : "Developer Note: Failed to send email. Check EmailJS configuration or service status."
+          );
+          setIsSubmitted(true);
+          setTimeout(() => {
+            setIsSubmitted(false);
+            setErrorMessage("");
+          }, 5000);
         }
       );
-    */
-
-    // Temporary success simulation
-    setIsSubmitted(true);
-    e.target.reset();
-    setTimeout(() => setIsSubmitted(false), 4000);
   };
 
   const inputMotion = {
@@ -167,7 +176,8 @@ export default function ContactUs() {
             </div>
           </motion.form>
 
-          {/* Contact Info Card */}
+          {/* Contact Info Card (same as before) */}
+
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -220,13 +230,15 @@ export default function ContactUs() {
               </div>
             </div>
           </motion.div>
+
+          {/* ...keep your right-side card unchanged... */}
         </div>
       </div>
 
-      {/* Success Modal */}
+      {/* Success/Error Modal */}
       <AnimatePresence>
-        {isSubmitted &&
-          (<motion.div
+        {isSubmitted && (
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -242,68 +254,22 @@ export default function ContactUs() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="w-14 sm:w-16 h-14 sm:h-16 mx-auto mb-4 rounded-full bg-[#780606]/10 flex items-center justify-center">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="w-7 sm:w-8 h-7 sm:h-8 bg-[#780606] rounded-full flex items-center justify-center text-white text-base sm:text-lg" >
+                <div className="w-7 sm:w-8 h-7 sm:h-8 bg-[#780606] rounded-full flex items-center justify-center text-white text-base sm:text-lg">
                   ✓
-                </motion.div>
+                </div>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#780606] mb-2">
-                Thank You!
+                {errorMessage ? "Developer Alert" : "Thank You!"}
               </h3>
               <p className="text-gray-600 text-sm sm:text-base">
-                Your message has been successfully submitted. Our team will get back
-                to you shortly.
+                {errorMessage
+                  ? errorMessage
+                  : "Your message has been successfully submitted. Our team will get back to you shortly."}
               </p>
             </motion.div>
           </motion.div>
-
-
-          )}
+        )}
       </AnimatePresence>
-
-      {/* CTA Section */}
-      <div className="bg-gradient-to-tr from-[#780606] to-[#4a0303] text-white text-center py-12 sm:py-16 px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(120,6,6,0.35)" }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#780606] to-[#4a0303] text-white font-medium text-xs sm:text-sm px-4 sm:px-5 py-2 rounded-full shadow-md relative overflow-hidden backdrop-blur-md mb-5 sm:mb-6"
-          >
-            <span className="absolute inset-0 bg-white/10 blur-xl animate-pulse rounded-full"></span>
-            <span className="relative z-10 bg-white/15 p-1.5 sm:p-2 rounded-full">
-              <FaBullhorn className="text-[#f4b02a] w-3 sm:w-4 h-3 sm:h-4" />
-            </span>
-            <span className="relative z-10">We’re Ready 24 Hours</span>
-          </motion.div>
-
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
-            Have a Project in Mind? Let’s Talk
-          </h3>
-
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl mx-auto mb-6 sm:mb-8">
-            Whether it’s visa consultation, travel planning, or documentation
-            support — we’re here to help you every step of the way.
-          </p>
-
-          <a
-            href="tel:+919876543210"
-            className="inline-block bg-white text-[#780606] px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-[#f4b02a] hover:text-[#4a0303] transition-all duration-300 shadow-lg"
-          >
-            +91 98765 43210
-          </a>
-        </motion.div>
-      </div>
     </div>
   );
 }

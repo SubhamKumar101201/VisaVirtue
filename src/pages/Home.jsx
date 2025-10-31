@@ -9,6 +9,7 @@ import VisaServices from "../components/VisaServicesExperiment";
 import VisaAssistanceSection from "../components/VisaAssistanceSection";
 import Testimonials from "../components/TestimonialsSection";
 import ReferAFriend from "../components/ReferAFriend";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -154,7 +155,11 @@ const Home = () => {
               whileTap={{ scale: 0.95 }}
               className="mt-8 bg-[#780606] text-white px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg hover:bg-[#5a0404] transition-all"
             >
-              Contact Us
+              <Link
+                to="/contact"
+              >
+                Contact Us
+              </Link>
             </motion.button>
           </motion.div>
 

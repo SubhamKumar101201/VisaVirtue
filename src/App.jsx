@@ -18,6 +18,7 @@ import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import BlogDetail from './pages/BlogDetail';
+import Visas from './pages/Visas';
 
 // ScrollToTop
 function ScrollToTop() {
@@ -53,6 +54,7 @@ function App() {
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />
+            <Route path="/visas" element={<Visas />} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />

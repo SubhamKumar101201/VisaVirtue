@@ -1,22 +1,59 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaComments, FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+import ReactFlagsSelect from "react-flags-select";
+import { Link } from "react-router-dom";
+import { countryList as countries } from "../data/countryList";
 
 export default function VisaRequirement() {
-  const [citizen, setCitizen] = useState("India");
+  const [citizen, setCitizen] = useState("");
   const [destination, setDestination] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const citizens = ["India", "USA", "UK", "Canada", "Australia", "Germany"];
-  const destinations = [
-    "Japan",
-    "France",
-    "UAE",
-    "Singapore",
-    "Italy",
-    "Thailand",
-    "USA",
-    "Canada",
-  ];
+  // Auto-detect user country (Comment out because it is not free api so)
+  // useEffect(() => {
+  //   const detectCountry = async () => {
+  //     try {
+  //       const res = await fetch("https://ipapi.co/json/");
+  //       const data = await res.json();
+  //       if (data && data.country_code) {
+  //         setCitizen(data.country_code);
+  //       }
+  //     } catch {
+  //       console.log("Could not detect country");
+  //     }
+  //   };
+  //   detectCountry();
+  // }, []);
+
+  const countryList = useMemo(() => countries, []);
+  const destinationOptions = useMemo(
+    () => countryList.filter((code) => code !== citizen),
+    [citizen, countryList]
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!citizen || !destination) {
+      setErrorMessage("Please select both citizenship and destination country.");
+      setShowErrorModal(true);
+      return;
+    }
+
+    console.log(`Citizen: ${citizen}, Destination: ${destination}`);
+  };
+
+  // Auto-hide modal after a few seconds
+  useEffect(() => {
+    if (showErrorModal) {
+      const timer = setTimeout(() => {
+        setShowErrorModal(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showErrorModal]);
 
   return (
     <motion.div
@@ -24,7 +61,7 @@ export default function VisaRequirement() {
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true, amount: 0.2 }}
-      className="py-16 px-4 sm:px-6 md:px-10 lg:px-16 bg-cover bg-center"
+      className="py-16 px-4 sm:px-6 md:px-10 lg:px-16 bg-cover bg-center relative z-10"
       style={{
         backgroundImage:
           "linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1657358846130-3305fd8fcd30?auto=format&fit=crop&q=80&w=1170')",
@@ -52,55 +89,80 @@ export default function VisaRequirement() {
           viewport={{ once: true }}
           className="mx-auto w-full max-w-3xl"
         >
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-white/40 shadow-2xl p-6 sm:p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white/95 backdrop-blur-sm rounded-2xl border border-white/40 shadow-2xl p-6 sm:p-8 relative z-10"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {/* Citizen Select */}
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-2">
-                  For citizens of
-                </label>
-                <select
-                  value={citizen}
-                  onChange={(e) => setCitizen(e.target.value)}
-                  className="h-12 px-4 rounded-lg border border-gray-200 bg-white text-gray-800 focus:ring-2 focus:ring-[#780606] outline-none"
-                >
-                  {citizens.map((c) => (
-                    <option key={c}>{c}</option>
-                  ))}
-                </select>
+              <div className="flex flex-col relative">
+                <label className="text-sm text-gray-600 mb-2">For citizens of</label>
+                <div className="rounded-lg border border-gray-200 bg-white text-gray-800 relative z-20">
+                  <ReactFlagsSelect
+                    countries={countryList}
+                    selected={citizen}
+                    onSelect={(code) => {
+                      setCitizen(code);
+                      if (destination === code) setDestination("");
+                    }}
+                    placeholder="Select Country"
+                    searchable
+                    className="w-full !pb-0"
+                    selectButtonClassName="w-full h-12 border-0 bg-transparent text-gray-800"
+                    dropdownStyle={{
+                      position: "absolute",
+                      zIndex: 50,
+                      width: "100%",
+                      background: "white",
+                      color: "black",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      maxHeight: "250px",
+                      overflowY: "auto",
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Destination Select */}
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-2">
-                  Traveling to
-                </label>
-                <select
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="h-12 px-4 rounded-lg border border-gray-200 bg-white text-gray-800 focus:ring-2 focus:ring-[#780606] outline-none"
-                >
-                  <option value="">Select Country</option>
-                  {destinations.map((d) => (
-                    <option key={d}>{d}</option>
-                  ))}
-                </select>
+              <div className="flex flex-col relative">
+                <label className="text-sm text-gray-600 mb-2">Traveling to</label>
+                <div className="rounded-lg border border-gray-200 bg-white text-gray-800 relative z-10">
+                  <ReactFlagsSelect
+                    countries={destinationOptions}
+                    selected={destination}
+                    onSelect={(code) => setDestination(code)}
+                    placeholder="Select Destination"
+                    searchable
+                    className="w-full !pb-0"
+                    selectButtonClassName="w-full h-12 border-0 bg-transparent text-gray-800"
+                    dropdownStyle={{
+                      position: "absolute",
+                      zIndex: 40,
+                      width: "100%",
+                      background: "white",
+                      color: "black",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      maxHeight: "250px",
+                      overflowY: "auto",
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Button */}
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-2 invisible">
-                  Check
-                </label>
+                <label className="text-sm text-gray-600 mb-2 invisible">Check</label>
                 <button
-                  type="button"
+                  type="submit"
                   className="h-12 w-full rounded-lg bg-[#780606] hover:bg-[#5a0404] text-white font-semibold transition-transform duration-200 hover:scale-[1.03] shadow-md"
                 >
                   Check Requirements
                 </button>
               </div>
             </div>
-          </div>
+          </form>
 
           {/* Contact Info */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-sm text-gray-200">
@@ -120,8 +182,51 @@ export default function VisaRequirement() {
               Tip: Select your country & destination to view requirements.
             </div>
           </div>
+
+          <div className="text-gray-300 text-center text-xs sm:text-sm mt-6">
+            Having trouble selecting your country or it’s not listed?{" "}
+            <Link
+              to="/contact"
+              className="text-[#f4b02a] font-medium underline hover:text-yellow-400 transition-colors duration-200"
+            >
+              Contact us
+            </Link>{" "}
+            and we’ll get back to you shortly.
+          </div>
         </motion.div>
       </div>
+
+      {/* Error Modal */}
+      <AnimatePresence>
+        {showErrorModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-4 sm:px-6"
+            onClick={() => setShowErrorModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl text-center max-w-sm sm:max-w-md w-full border border-[#780606]/20 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-14 sm:w-16 h-14 sm:h-16 mx-auto mb-4 rounded-full bg-[#780606]/10 flex items-center justify-center">
+                <div className="w-7 sm:w-8 h-7 sm:h-8 bg-[#780606] rounded-full flex items-center justify-center text-white text-base sm:text-lg">
+                  !
+                </div>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#780606] mb-2">
+                Oops!
+              </h3>
+              <p className="text-gray-600 text-sm sm:text-base">{errorMessage}</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

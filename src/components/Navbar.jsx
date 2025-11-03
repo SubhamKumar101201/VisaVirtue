@@ -40,7 +40,7 @@ export default function Navbar() {
 
         {/* ===== Desktop Menu ===== */}
         <div className="hidden md:flex items-center space-x-7">
-          {["Home", "Services", "About", "Blog", "Contact"].map((item) => (
+          {["Home", "Visas", "Services", "About", "Blog", "Contact"].map((item) => (
             <NavLink
               key={item}
               to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
@@ -113,7 +113,7 @@ export default function Navbar() {
           }`}
       >
         <div className="bg-gradient-to-b from-white to-[#fff2f2] text-center py-5 space-y-4 px-6 rounded-b-3xl shadow-md border-t border-[#f3caca]/40">
-          {["Home", "Services", "About", "Blog", "Contact"].map((item) => (
+          {["Home", "Visas", "Services", "About", "Blog", "Contact"].map((item) => (
             <NavLink
               key={item}
               to={item === "Home" ? "/" : `/${item.toLowerCase()}`}

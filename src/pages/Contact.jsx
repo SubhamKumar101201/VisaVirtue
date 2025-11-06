@@ -9,46 +9,65 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaYoutube,
-  FaBullhorn,
 } from "react-icons/fa";
-import emailjs from "@emailjs/browser";
 
 export default function ContactUs() {
   const form = useRef();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const sendEmail = (e) => {
+  const scriptURL =
+    import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
+  const sendForm = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     setErrorMessage("");
 
-    emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        form.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setIsSubmitted(true);
-          e.target.reset();
-          setTimeout(() => setIsSubmitted(false), 4000);
-        },
-        (error) => {
-          console.error("EmailJS Error:", error);
-          setErrorMessage(
-            error?.text?.includes("quota") || error?.status === 429
-              ? "Developer Note: Email service quota exceeded. Please upgrade your EmailJS plan."
-              : "Developer Note: Failed to send email. Check EmailJS configuration or service status."
-          );
-          setIsSubmitted(true);
-          setTimeout(() => {
-            setIsSubmitted(false);
-            setErrorMessage("");
-          }, 5000);
-        }
-      );
+    const formData = new FormData(form.current);
+    const payload = {
+      formType: "contact",
+      origin: window.location.origin,
+      name: formData.get("user_name"),
+      email: formData.get("user_email"),
+      phone: formData.get("user_phone"),
+      whatsapp: formData.get("user_whatsapp"),
+      nationality: formData.get("nationality"),
+      visaType: formData.get("visa_type"),
+      travellingTo: formData.get("travel_to"),
+      planToApply: formData.get("apply_time"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload).toString(),
+      });
+
+      if (!response.ok) throw new Error("Network error");
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        e.target.reset();
+      } else {
+        setErrorMessage(result.message || "Submission failed. Try again later.");
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      setErrorMessage("Something went wrong. Please try again later.");
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setErrorMessage("");
+      }, 4000);
+    }
   };
 
   const inputMotion = {
@@ -60,9 +79,12 @@ export default function ContactUs() {
     }),
   };
 
+  const inputClass =
+    "w-full bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#780606]/40 focus:border-[#780606]/40 transition-all duration-200";
+
   return (
     <div className="bg-gradient-to-br from-[#fff5f5] via-white to-[#fff0f0] min-h-screen font-['Manrope'] relative overflow-hidden">
-      {/* Floating subtle gradient shapes */}
+      {/* Floating gradients */}
       <div className="absolute -top-20 -left-20 w-56 md:w-72 h-56 md:h-72 bg-[#780606]/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-72 md:w-96 h-72 md:h-96 bg-[#4a0303]/10 rounded-full blur-3xl"></div>
 
@@ -89,13 +111,13 @@ export default function ContactUs() {
         </motion.p>
       </div>
 
-      {/* Form + Card Section */}
+      {/* Form + Info */}
       <div className="relative py-10 sm:py-16 px-4 sm:px-6 lg:px-20">
         <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
           {/* Contact Form */}
           <motion.form
             ref={form}
-            onSubmit={sendEmail}
+            onSubmit={sendForm}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -110,7 +132,11 @@ export default function ContactUs() {
                 { label: "Full Name", name: "user_name", placeholder: "Your full name" },
                 { label: "Email", name: "user_email", placeholder: "you@example.com", type: "email" },
                 { label: "Phone Number", name: "user_phone", placeholder: "+91 98765 43210", type: "tel" },
+                { label: "WhatsApp Number", name: "user_whatsapp", placeholder: "+91 98765 43210", type: "tel" },
                 { label: "Nationality", name: "nationality", placeholder: "Enter your nationality" },
+                { label: "Type of Visa", name: "visa_type", placeholder: "Enter visa type" },
+                { label: "Travelling To", name: "travel_to", placeholder: "Enter destination country" },
+                { label: "When do you plan to apply?", name: "apply_time", placeholder: "e.g. In 1 month" },
               ].map((field, i) => (
                 <motion.div key={field.name} custom={i} variants={inputMotion}>
                   <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
@@ -121,38 +147,13 @@ export default function ContactUs() {
                     type={field.type || "text"}
                     required
                     placeholder={field.placeholder}
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#780606]/40 focus:border-[#780606]/40 transition-all duration-200"
+                    className={inputClass}
                   />
                 </motion.div>
               ))}
 
-              {/* Dropdowns */}
-              {[
-                { label: "Type of Visa", name: "visa_type", options: ["Tourist", "Student", "Work"] },
-                { label: "Travelling To", name: "travel_to", options: ["USA", "Canada", "UK", "Australia"] },
-                { label: "When do you plan to apply?", name: "apply_time", options: ["Immediately", "In 1 Month", "Within 3 Months", "Later"] },
-              ].map((select, i) => (
-                <motion.div key={select.name} custom={i + 4} variants={inputMotion} className="md:col-span-2">
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
-                    {select.label}
-                  </label>
-                  <select
-                    name={select.name}
-                    required
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#780606]/40 focus:border-[#780606]/40 transition-all duration-200"
-                  >
-                    <option value="">Select option</option>
-                    {select.options.map((opt) => (
-                      <option key={opt.toLowerCase()} value={opt.toLowerCase()}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                </motion.div>
-              ))}
-
               {/* Message */}
-              <motion.div custom={7} variants={inputMotion} className="md:col-span-2">
+              <motion.div custom={9} variants={inputMotion} className="md:col-span-2">
                 <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Your Message
                 </label>
@@ -160,24 +161,26 @@ export default function ContactUs() {
                   name="message"
                   rows="4"
                   placeholder="Write your message..."
-                  className="w-full bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#780606]/40 focus:border-[#780606]/40 transition-all duration-200"
+                  className={inputClass}
                 ></textarea>
               </motion.div>
 
               {/* Submit */}
               <motion.button
                 type="submit"
+                disabled={isSubmitting}
                 whileHover={{ scale: 1.03, boxShadow: "0 6px 20px rgba(120,6,6,0.3)" }}
                 whileTap={{ scale: 0.97 }}
-                className="md:col-span-2 mt-6 sm:mt-8 inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl bg-[#780606] px-8 sm:px-10 py-3.5 sm:py-4 text-white font-semibold text-base sm:text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px]"
+                className={`md:col-span-2 mt-6 sm:mt-8 inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl bg-[#780606] px-8 sm:px-10 py-3.5 sm:py-4 text-white font-semibold text-base sm:text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px] ${
+                  isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
-                Send Message
+                {isSubmitting ? "Submitting..." : "Send Message"}
               </motion.button>
             </div>
           </motion.form>
 
-          {/* Contact Info Card (same as before) */}
-
+          {/* Info card (unchanged) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -193,7 +196,7 @@ export default function ContactUs() {
             </p>
 
             <div className="space-y-5 text-gray-800 text-sm sm:text-base">
-              {[ // contact list
+              {[
                 { Icon: FaMapMarkerAlt, title: "Office", text: "123 Visa Street, New Delhi, India" },
                 { Icon: FaPhoneAlt, title: "Phone", text: "+91 98765 43210" },
                 { Icon: FaEnvelope, title: "Email", text: "support@visavirtue.com" },
@@ -230,8 +233,6 @@ export default function ContactUs() {
               </div>
             </div>
           </motion.div>
-
-          {/* ...keep your right-side card unchanged... */}
         </div>
       </div>
 
@@ -259,7 +260,7 @@ export default function ContactUs() {
                 </div>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#780606] mb-2">
-                {errorMessage ? "Developer Alert" : "Thank You!"}
+                {errorMessage ? "Oops!" : "Thank You!"}
               </h3>
               <p className="text-gray-600 text-sm sm:text-base">
                 {errorMessage

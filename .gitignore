@@ -25,3 +25,4 @@ dist-ssr
 
 # Tryouts no need
 src/components/etc/
+.env

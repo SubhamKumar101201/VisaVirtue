@@ -28,16 +28,16 @@ export default function ContactUs() {
     const formData = new FormData(form.current);
     const payload = {
       formType: "contact",
-      origin: window.location.origin,
-      name: formData.get("user_name"),
-      email: formData.get("user_email"),
-      phone: formData.get("user_phone"),
-      whatsapp: formData.get("user_whatsapp"),
-      nationality: formData.get("nationality"),
-      visaType: formData.get("visa_type"),
-      travellingTo: formData.get("travel_to"),
-      planToApply: formData.get("apply_time"),
-      message: formData.get("message"),
+      origin: String(window.location.origin),
+      name: String(formData.get("user_name") || ""),
+      email: String(formData.get("user_email") || ""),
+      phone: String(formData.get("user_phone") || ""),
+      whatsapp: String(formData.get("user_whatsapp") || ""),
+      nationality: String(formData.get("nationality") || ""),
+      visaType: String(formData.get("visa_type") || ""),
+      travellingTo: String(formData.get("travel_to") || ""),
+      planToApply: String(formData.get("apply_time") || ""),
+      message: String(formData.get("message") || ""),
     };
 
     try {

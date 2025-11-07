@@ -47,14 +47,14 @@ const ReferAFriend = () => {
     try {
       const payload = {
         formType: "refer",
-        yourName: formData.referrerName,
-        yourEmail: formData.referrerEmail,
-        yourWhatsapp: formData.referrerWhatsapp,
-        friendName: formData.friendName,
-        friendEmail: formData.friendEmail,
-        friendPhone: formData.friendPhone,
-        friendWhatsapp: formData.friendWhatsapp,
-        origin: window.location.origin,
+        yourName: String(formData.referrerName || ""),
+        yourEmail: String(formData.referrerEmail || ""),
+        yourWhatsapp: String(formData.referrerWhatsapp || ""),
+        friendName: String(formData.friendName || ""),
+        friendEmail: String(formData.friendEmail || ""),
+        friendPhone: String(formData.friendPhone || ""),
+        friendWhatsapp: String(formData.friendWhatsapp || ""),
+        origin: String(window.location.origin),
       };
 
       const response = await fetch(scriptURL, {

@@ -59,11 +59,10 @@ const ReferAFriend = () => {
 
       const response = await fetch(scriptURL, {
         method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload).toString(),
+        redirect: "follow", // ensures your app follows redirects cleanly
       });
-
 
       if (!response.ok) throw new Error("Network response was not ok");
 

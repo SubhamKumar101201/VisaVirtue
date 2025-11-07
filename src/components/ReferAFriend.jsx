@@ -59,9 +59,11 @@ const ReferAFriend = () => {
 
       const response = await fetch(scriptURL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(payload).toString(),
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
+
 
       if (!response.ok) throw new Error("Network response was not ok");
 
@@ -244,9 +246,8 @@ const ReferAFriend = () => {
                 boxShadow: "0 6px 20px rgba(120,6,6,0.3)",
               }}
               whileTap={{ scale: 0.97 }}
-              className={`md:col-span-2 mt-8 inline-flex items-center justify-center gap-3 rounded-xl bg-[#780606] px-10 py-4 text-white font-semibold text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px] ${
-                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-              }`}
+              className={`md:col-span-2 mt-8 inline-flex items-center justify-center gap-3 rounded-xl bg-[#780606] px-10 py-4 text-white font-semibold text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                }`}
             >
               <FaUserPlus className="w-5 h-5" />
               {isSubmitting ? "Submitting..." : "Submit Referral"}
@@ -274,25 +275,22 @@ const ReferAFriend = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className={`w-14 sm:w-16 h-14 sm:h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                  modalInfo.type === "success" ? "bg-[#780606]/10" : "bg-red-100"
-                }`}
+                className={`w-14 sm:w-16 h-14 sm:h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${modalInfo.type === "success" ? "bg-[#780606]/10" : "bg-red-100"
+                  }`}
               >
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2 }}
-                  className={`w-7 sm:w-8 h-7 sm:h-8 rounded-full flex items-center justify-center text-white text-base sm:text-lg ${
-                    modalInfo.type === "success" ? "bg-[#780606]" : "bg-red-600"
-                  }`}
+                  className={`w-7 sm:w-8 h-7 sm:h-8 rounded-full flex items-center justify-center text-white text-base sm:text-lg ${modalInfo.type === "success" ? "bg-[#780606]" : "bg-red-600"
+                    }`}
                 >
                   {modalInfo.type === "success" ? "✓" : "!"}
                 </motion.div>
               </div>
               <h3
-                className={`text-xl sm:text-2xl font-bold mb-2 ${
-                  modalInfo.type === "success" ? "text-[#780606]" : "text-red-600"
-                }`}
+                className={`text-xl sm:text-2xl font-bold mb-2 ${modalInfo.type === "success" ? "text-[#780606]" : "text-red-600"
+                  }`}
               >
                 {modalInfo.type === "success" ? "Thank You!" : "Oops!"}
               </h3>

@@ -43,8 +43,9 @@ export default function ContactUs() {
     try {
       const response = await fetch(scriptURL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(payload).toString(),
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) throw new Error("Network error");
@@ -171,9 +172,8 @@ export default function ContactUs() {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.03, boxShadow: "0 6px 20px rgba(120,6,6,0.3)" }}
                 whileTap={{ scale: 0.97 }}
-                className={`md:col-span-2 mt-6 sm:mt-8 inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl bg-[#780606] px-8 sm:px-10 py-3.5 sm:py-4 text-white font-semibold text-base sm:text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px] ${
-                  isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className={`md:col-span-2 mt-6 sm:mt-8 inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl bg-[#780606] px-8 sm:px-10 py-3.5 sm:py-4 text-white font-semibold text-base sm:text-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-[2px] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
               >
                 {isSubmitting ? "Submitting..." : "Send Message"}
               </motion.button>

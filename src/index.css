@@ -44,7 +44,7 @@ body::before {
 }
 
 /* ===== Section Styling ===== */
-section {
+/* section {
   background: white;
   margin: 2rem;
   border-radius: 12px;
@@ -52,7 +52,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 /* section h2 {
   color: #374151;

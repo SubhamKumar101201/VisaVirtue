@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -109,9 +110,12 @@ const HighlightsSection = () => {
               </p>
 
               {/* CTA Button */}
-              <button className="px-4 sm:px-5 md:px-6 py-1.5 sm:py-2 rounded-full bg-[#780606] text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg">
+              <Link
+                to="/visas"
+                className="px-4 sm:px-5 md:px-6 py-1.5 sm:py-2 rounded-full bg-[#780606] text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg inline-block"
+              >
                 Learn More
-              </button>
+              </Link>
             </motion.div>
           ))}
         </div>

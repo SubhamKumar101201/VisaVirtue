@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaGlobe, FaBolt, FaShieldAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { whatsappLink } from "../lib/whatsappLink";
 
 const slides = [
   {
@@ -84,12 +86,22 @@ export default function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4 pt-6">
-          <button className="bg-[#780606] text-white px-6 py-3 rounded-full font-medium hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg">
+          <Link
+            to="/contact"
+            className="bg-[#780606] text-white px-6 py-3 rounded-full font-medium hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg text-center"
+          >
             Book Free Consultation
-          </button>
-          <button className="bg-white text-[#780606] px-6 py-3 rounded-full font-medium border border-[#780606] hover:bg-[#780606] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg">
+          </Link>
+
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-[#780606] px-6 py-3 rounded-full font-medium border border-[#780606] hover:bg-[#780606] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg"
+          >
             Chat with Visa Expert
-          </button>
+          </a>
+
         </div>
       </motion.div>
 

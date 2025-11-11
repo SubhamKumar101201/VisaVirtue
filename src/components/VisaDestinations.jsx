@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { visaDestinationsData } from "../data/VisaDestinationData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const VisaDestinations = ({ showAll = false }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   // Filter destinations based on search query
   const filteredDestinations = useMemo(() => {
@@ -20,6 +21,16 @@ const VisaDestinations = ({ showAll = false }) => {
   const destinationsToShow = showAll
     ? filteredDestinations
     : filteredDestinations.slice(0, 5);
+
+  // Redirect function
+  const handleRedirect = (destination) => {
+    navigate("/visas/apply-visa", {
+      state: {
+        fromCountry: "",
+        toCountry: destination.name,
+      },
+    });
+  };
 
   return (
     <div className="relative py-20 bg-white overflow-hidden font-['Manrope']">
@@ -85,31 +96,59 @@ const VisaDestinations = ({ showAll = false }) => {
         )}
 
         {/* Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10 md:gap-x-8 justify-items-center">
           {destinationsToShow.length > 0 ? (
             destinationsToShow.map((dest, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
                 viewport={{ once: true }}
-                className="relative group rounded-2xl overflow-hidden shadow-lg bg-white transition-all duration-500 hover:scale-105 cursor-pointer"
+                onClick={() => handleRedirect(dest)}
+                className="group cursor-pointer w-full max-w-[160px] sm:max-w-[200px] md:max-w-[220px] lg:max-w-[260px]"
               >
-                <LazyLoadImage
-                  effect="blur"
-                  src={dest.image}
-                  alt={dest.name}
-                  wrapperClassName="!block"
-                  className="w-44 sm:w-56 md:w-64 h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute bottom-0 w-full text-center text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-4">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2">{dest.name}</h3>
-                  <p className="text-xs sm:text-sm mb-3">{dest.desc}</p>
-                  <button className="px-4 py-2 bg-[#780606] rounded-full text-white text-xs sm:text-sm font-semibold transition-transform duration-200 hover:bg-[#5a0404] hover:scale-[1.03] shadow-md">
-                    More Details
-                  </button>
+                {/* Image Card */}
+                <div className="relative rounded-2xl overflow-hidden shadow-lg bg-white transition-all duration-500 hover:scale-105">
+                  <LazyLoadImage
+                    effect="blur"
+                    src={dest.image}
+                    alt={dest.name}
+                    wrapperClassName="!block"
+                    className="w-full h-40 sm:h-48 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+
+                  {/* Desktop Hover Overlay */}
+                  <div className="hidden sm:block absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  <div className="hidden sm:block absolute bottom-0 w-full text-center text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-4">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                      {dest.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm mb-3">{dest.desc}</p>
+
+                    {/* ✅ More Details button only for desktop */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRedirect(dest);
+                      }}
+                      className="px-4 py-2 bg-[#780606] rounded-full text-white text-xs sm:text-sm font-semibold transition-transform duration-200 hover:bg-[#5a0404] hover:scale-[1.03] shadow-md"
+                    >
+                      More Details
+                    </button>
+                  </div>
+                </div>
+
+                {/* ✅ Mobile Country Name (below the card) */}
+                <div className="block sm:hidden mt-2 text-center">
+                  <h3 className="text-base font-semibold text-gray-800">
+                    {dest.name}
+                  </h3>
                 </div>
               </motion.div>
             ))
@@ -129,7 +168,7 @@ const VisaDestinations = ({ showAll = false }) => {
             viewport={{ once: true }}
             className="flex justify-center mt-16"
           >
-            <Link to="/services">
+            <Link to="/visas">
               <button className="flex items-center gap-2 bg-[#780606] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#5a0404] transition-transform duration-200 hover:scale-[1.03] shadow-md">
                 View All Visas <FaArrowRight />
               </button>

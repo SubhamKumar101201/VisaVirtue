@@ -2,35 +2,22 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaComments, FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import ReactFlagsSelect from "react-flags-select";
-import { Link } from "react-router-dom";
-import { countryList as countries } from "../data/countryList";
+import { Link, useNavigate } from "react-router-dom";
+import { countryList as countries } from "../data/countryList"; // Must be object: { IN: "India", AE: "United Arab Emirates", ... }
+import { whatsappLink } from "../lib/whatsappLink";
 
 export default function VisaRequirement() {
   const [citizen, setCitizen] = useState("");
   const [destination, setDestination] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const navigate = useNavigate();
 
-  // Auto-detect user country (Comment out because it is not free api so)
-  // useEffect(() => {
-  //   const detectCountry = async () => {
-  //     try {
-  //       const res = await fetch("https://ipapi.co/json/");
-  //       const data = await res.json();
-  //       if (data && data.country_code) {
-  //         setCitizen(data.country_code);
-  //       }
-  //     } catch {
-  //       console.log("Could not detect country");
-  //     }
-  //   };
-  //   detectCountry();
-  // }, []);
-
-  const countryList = useMemo(() => countries, []);
+  // Convert the imported list into a flag-compatible format
+  const countryCodes = useMemo(() => Object.keys(countries), []);
   const destinationOptions = useMemo(
-    () => countryList.filter((code) => code !== citizen),
-    [citizen, countryList]
+    () => countryCodes.filter((code) => code !== citizen),
+    [citizen, countryCodes]
   );
 
   const handleSubmit = (e) => {
@@ -42,15 +29,22 @@ export default function VisaRequirement() {
       return;
     }
 
-    console.log(`Citizen: ${citizen}, Destination: ${destination}`);
+    // Convert country code to full name
+    const citizenName = countries[citizen] || citizen;
+    const destinationName = countries[destination] || destination;
+
+    // Redirect to Apply Visa with full country names
+    navigate("/visas/apply-visa", {
+      state: {
+        fromCountry: citizenName,
+        toCountry: destinationName,
+      },
+    });
   };
 
-  // Auto-hide modal after a few seconds
   useEffect(() => {
     if (showErrorModal) {
-      const timer = setTimeout(() => {
-        setShowErrorModal(false);
-      }, 3000);
+      const timer = setTimeout(() => setShowErrorModal(false), 3000);
       return () => clearTimeout(timer);
     }
   }, [showErrorModal]);
@@ -81,7 +75,7 @@ export default function VisaRequirement() {
           it simple for you.
         </p>
 
-        {/* Form Card */}
+        {/* Form */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -99,7 +93,8 @@ export default function VisaRequirement() {
                 <label className="text-sm text-gray-600 mb-2">For citizens of</label>
                 <div className="rounded-lg border border-gray-200 bg-white text-gray-800 relative z-20">
                   <ReactFlagsSelect
-                    countries={countryList}
+                    countries={countryCodes}
+                    customLabels={countries}
                     selected={citizen}
                     onSelect={(code) => {
                       setCitizen(code);
@@ -130,6 +125,7 @@ export default function VisaRequirement() {
                 <div className="rounded-lg border border-gray-200 bg-white text-gray-800 relative z-10">
                   <ReactFlagsSelect
                     countries={destinationOptions}
+                    customLabels={countries}
                     selected={destination}
                     onSelect={(code) => setDestination(code)}
                     placeholder="Select Destination"
@@ -167,17 +163,29 @@ export default function VisaRequirement() {
           {/* Contact Info */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-sm text-gray-200">
             <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
-              <span className="flex items-center gap-2 text-[#f4b02a]">
-                <FaComments /> <span className="text-white">Live Chat</span>
-              </span>
-              <span className="flex items-center gap-2 text-[#25D366]">
-                <FaWhatsapp /> <span className="text-white">WhatsApp</span>
-              </span>
-              <span className="flex items-center gap-2 text-[#f4b02a]">
-                <FaPhoneAlt />{" "}
-                <span className="text-white">+91 98765 43210</span>
-              </span>
+
+              {/* WhatsApp (linked) */}
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#25D366] hover:text-[#1ebe5d] transition-colors duration-300"
+              >
+                <FaWhatsapp />
+                <span className="text-white">WhatsApp</span>
+              </a>
+
+              {/* Phone number */}
+              <a
+                href="tel:+91 7008454261"
+                className="flex items-center gap-2 text-[#f4b02a] hover:text-[#d89c1e] transition-colors duration-300"
+              >
+                <FaPhoneAlt />
+                <span className="text-white">+91 7008454261</span>
+              </a>
+
             </div>
+
             <div className="text-gray-300 text-xs text-center sm:text-right">
               Tip: Select your country & destination to view requirements.
             </div>

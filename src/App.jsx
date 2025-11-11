@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,6 +19,8 @@ import Contact from './pages/Contact';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import BlogDetail from './pages/BlogDetail';
 import Visas from './pages/Visas';
+import VisaApplicationForm from './pages/VisaApplicationForm';
+import FloatingWhatsappButton from './components/FloatingWhatsappButton';
 
 // ScrollToTop
 function ScrollToTop() {
@@ -40,6 +42,7 @@ const pageTransition = {
 // Main App Component
 function App() {
   const location = useLocation();
+  const [scrollVisible, setScrollVisible] = useState(false);
 
   return (
     <>
@@ -55,6 +58,7 @@ function App() {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/visas" element={<Visas />} />
+            <Route path="/visas/apply-visa" element={<VisaApplicationForm />} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
@@ -64,8 +68,10 @@ function App() {
         </motion.div>
       </AnimatePresence>
       <Footer />
-      {/* Scroll-to-top button always visible on all pages */}
-      <ScrollToTopButton />
+
+      {/* Floating Buttons */}
+      <ScrollToTopButton onVisibilityChange={setScrollVisible} />
+      <FloatingWhatsappButton scrollVisible={scrollVisible} />
     </>
   );
 }

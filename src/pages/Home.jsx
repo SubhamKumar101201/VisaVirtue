@@ -15,8 +15,16 @@ const Home = () => {
   return (
     <>
       <HeroSection />
-      <VisaRequirement />
-      <VisaDestinations />
+
+      {/* 👇 Section 1: Visa Requirements */}
+      <section id="visa-requirements">
+        <VisaRequirement />
+      </section>
+
+      {/* 👇 Section 2: Destinations */}
+      <section id="destinations">
+        <VisaDestinations />
+      </section>
 
       {/* Visa Assistance Promo Section */}
       <div className="relative flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 py-16 lg:py-24 bg-white overflow-hidden font-['Manrope']">
@@ -78,25 +86,40 @@ const Home = () => {
           </p>
 
           <div className="flex justify-center lg:justify-start gap-4">
-            <button className="bg-[#780606] text-white px-6 py-3 rounded-full hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
+            {/* Get Started — goes to /visas */}
+            <Link
+              to="/visas"
+              className="bg-[#780606] text-white px-6 py-3 rounded-full hover:bg-white hover:text-[#780606] border border-[#780606] transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 inline-block"
+            >
               Get Started
-            </button>
-            <button className="flex items-center gap-2 bg-[#780606] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#5a0404] transition-transform duration-200 hover:scale-[1.03] shadow-md hover:shadow-lg hover:-translate-y-1">
+            </Link>
+
+            {/* Call Us — phone link */}
+            <a
+              href="tel:+91 7008454261"
+              className="flex items-center gap-2 bg-[#780606] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#5a0404] transition-transform duration-200 hover:scale-[1.03] shadow-md hover:shadow-lg hover:-translate-y-1"
+            >
               <FaPhoneAlt /> Call Us
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>
 
       <HighlightsSection />
       <VisaAssistanceSection />
-      <Testimonials />
-      {/* <VisaServices /> */}
-      <ReferAFriend />
+
+      {/* 👇 Section 3: Testimonials */}
+      <section id="testimonials">
+        <Testimonials />
+      </section>
+
+      {/* 👇 Section 4: Refer a Friend */}
+      <section id="refer-a-friend">
+        <ReferAFriend />
+      </section>
 
       {/* Company Info & Location */}
       <div className="relative w-full bg-white text-gray-700 font-['Manrope'] overflow-hidden">
-
         {/* Background Blobs */}
         <motion.div
           className="absolute -top-32 -left-20 w-[450px] h-[450px] bg-[#780606]/10 rounded-full blur-3xl"
@@ -111,7 +134,6 @@ const Home = () => {
 
         {/* Main Content */}
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between px-8 lg:px-24 py-20 gap-14">
-
           {/* Left - Info & Contact */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -124,8 +146,7 @@ const Home = () => {
               Visit <span className="text-gray-800">VisaVirtue</span>
             </h2>
             <p className="text-gray-600 text-lg max-w-md">
-              We’re passionate about guiding you through every visa step —
-              whether you’re planning to study abroad, travel, or explore new opportunities.
+              We’re passionate about guiding you through every visa step — whether you’re planning to study abroad, travel, or explore new opportunities.
               Come meet us in person or reach out anytime.
             </p>
 
@@ -155,15 +176,11 @@ const Home = () => {
               whileTap={{ scale: 0.95 }}
               className="mt-8 bg-[#780606] text-white px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg hover:bg-[#5a0404] transition-all"
             >
-              <Link
-                to="/contact"
-              >
-                Contact Us
-              </Link>
+              <Link to="/contact">Contact Us</Link>
             </motion.button>
           </motion.div>
 
-          {/* Right - Map + Floating Image */}
+          {/* Right - Map */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -171,7 +188,6 @@ const Home = () => {
             viewport={{ once: true }}
             className="lg:w-1/2 relative flex justify-center"
           >
-            {/* Embedded Map */}
             <div className="rounded-2xl overflow-hidden shadow-xl w-full max-w-lg">
               <iframe
                 title="VisaVirtue Location"
@@ -181,6 +197,7 @@ const Home = () => {
                 loading="lazy"
               ></iframe>
             </div>
+
             {/* Floating Glass Card */}
             <motion.div
               className="absolute top-8 right-8 bg-white/80 backdrop-blur-lg border border-[#780606]/20 rounded-2xl px-6 py-4 shadow-lg"
@@ -194,7 +211,6 @@ const Home = () => {
           </motion.div>
         </div>
       </div>
-
     </>
   );
 };

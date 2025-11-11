@@ -16,12 +16,12 @@ const Home = () => {
     <>
       <HeroSection />
 
-      {/* 👇 Section 1: Visa Requirements */}
+      {/* Section 1: Visa Requirements */}
       <section id="visa-requirements">
         <VisaRequirement />
       </section>
 
-      {/* 👇 Section 2: Destinations */}
+      {/* Section 2: Destinations */}
       <section id="destinations">
         <VisaDestinations />
       </section>
@@ -108,12 +108,12 @@ const Home = () => {
       <HighlightsSection />
       <VisaAssistanceSection />
 
-      {/* 👇 Section 3: Testimonials */}
+      {/* Section 3: Testimonials */}
       <section id="testimonials">
         <Testimonials />
       </section>
 
-      {/* 👇 Section 4: Refer a Friend */}
+      {/* Section 4: Refer a Friend */}
       <section id="refer-a-friend">
         <ReferAFriend />
       </section>

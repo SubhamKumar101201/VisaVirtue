@@ -131,7 +131,7 @@ const VisaDestinations = ({ showAll = false }) => {
                     </h3>
                     <p className="text-xs sm:text-sm mb-3">{dest.desc}</p>
 
-                    {/* ✅ More Details button only for desktop */}
+                    {/* More Details button only for desktop */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -144,7 +144,7 @@ const VisaDestinations = ({ showAll = false }) => {
                   </div>
                 </div>
 
-                {/* ✅ Mobile Country Name (below the card) */}
+                {/* Mobile Country Name (below the card) */}
                 <div className="block sm:hidden mt-2 text-center">
                   <h3 className="text-base font-semibold text-gray-800">
                     {dest.name}

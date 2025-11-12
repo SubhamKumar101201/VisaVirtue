@@ -5,7 +5,6 @@ import VisaDestinations from "../components/VisaDestinations";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import { motion } from "framer-motion";
 import HighlightsSection from "../components/HighlightsSection";
-import VisaServices from "../components/VisaServicesExperiment";
 import VisaAssistanceSection from "../components/VisaAssistanceSection";
 import Testimonials from "../components/TestimonialsSection";
 import ReferAFriend from "../components/ReferAFriend";

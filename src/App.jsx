@@ -20,7 +20,9 @@ import ScrollToTopButton from './components/ScrollToTopButton';
 import BlogDetail from './pages/BlogDetail';
 import Visas from './pages/Visas';
 import VisaApplicationForm from './pages/VisaApplicationForm';
+import NotFound from "./pages/NotFound";
 import FloatingWhatsappButton from './components/FloatingWhatsappButton';
+
 
 // ScrollToTop
 function ScrollToTop() {
@@ -64,6 +66,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/contact" element={<Contact />} />
+             <Route path="*" element={<NotFound />} />
           </Routes>
         </motion.div>
       </AnimatePresence>
